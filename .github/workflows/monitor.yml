@@ -2,7 +2,7 @@ name: Monitor Boletos
 
 on:
   schedule:
-    - cron: '0 * * * *'  # se ejecuta cada hora
+    - cron: '*/15 * * * *'  # se ejecuta cada 15 minutos
   workflow_dispatch:  # permite ejecutar manualmente desde GitHub
 
 jobs:
