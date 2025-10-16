@@ -2,27 +2,27 @@ name: Monitor Boletos
 
 on:
   schedule:
-    - cron: '0 * * * *'  # cada hora
-  workflow_dispatch:      # permite ejecutarlo manualmente
+    - cron: '0 * * * *'  # se ejecuta cada hora
+  workflow_dispatch:  # permite ejecutar manualmente desde GitHub
 
 jobs:
-  run-monitor:
+  monitor:
     runs-on: ubuntu-latest
-    steps:
-      - name: Checkout repo
-        uses: actions/checkout@v4
 
-      - name: Setup Python
-        uses: actions/setup-python@v5
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
         with:
-          python-version: '3.10'
+          python-version: '3.11'
 
       - name: Install dependencies
-        run: pip install requests beautifulsoup4
+        run: pip install requests beautifulsoup4 python-dotenv
 
-      - name: Run monitor
-        env:
+      - name: Run monitor script
+        env: 
           TELEGRAM_TOKEN: ${{ secrets.TELEGRAM_TOKEN }}
           CHAT_ID: ${{ secrets.CHAT_ID }}
           KEYWORDS_ENV: ${{ secrets.KEYWORDS_ENV }}
-        run: python monitor.py
+        run: python monitor_boletos.py
